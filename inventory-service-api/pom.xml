@@ -8,56 +8,12 @@
         <version>0.0.1-SNAPSHOT</version>
     </parent>
 
-    <artifactId>gateway</artifactId>
+    <artifactId>inventory-service-api</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>gateway</name>
-    <description>gateway</description>
+    <name>inventory-service-api</name>
+    <description>inventory-service-api</description>
 
     <dependencies>
-        <dependency>
-            <groupId>fr.hcaupert</groupId>
-            <artifactId>order-service-api</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>fr.hcaupert</groupId>
-            <artifactId>order-service</artifactId>
-            <scope>runtime</scope>
-        </dependency>
-        <dependency>
-            <groupId>fr.hcaupert</groupId>
-            <artifactId>inventory-service</artifactId>
-            <scope>runtime</scope>
-        </dependency>
-        <dependency>
-            <groupId>fr.hcaupert</groupId>
-            <artifactId>payment-service</artifactId>
-            <scope>runtime</scope>
-        </dependency>
-        <dependency>
-            <groupId>fr.hcaupert</groupId>
-            <artifactId>shipping-service</artifactId>
-            <scope>runtime</scope>
-        </dependency>
-        <dependency>
-            <groupId>fr.hcaupert</groupId>
-            <artifactId>temporal-utils</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>net.datafaker</groupId>
-            <artifactId>datafaker</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-actuator</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-devtools</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-web</artifactId>
-        </dependency>
         <dependency>
             <groupId>com.fasterxml.jackson.module</groupId>
             <artifactId>jackson-module-kotlin</artifactId>
@@ -70,20 +26,20 @@
             <groupId>org.jetbrains.kotlin</groupId>
             <artifactId>kotlin-stdlib</artifactId>
         </dependency>
-        <dependency>
-            <groupId>org.springdoc</groupId>
-            <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
-        </dependency>
+
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>fr.hcaupert</groupId>
+            <artifactId>temporal-utils</artifactId>
+        </dependency>
     </dependencies>
 
     <build>
         <sourceDirectory>${project.basedir}/src/main/kotlin</sourceDirectory>
-        <testSourceDirectory>${project.basedir}/src/test/kotlin</testSourceDirectory>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>

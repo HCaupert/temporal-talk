@@ -19,14 +19,98 @@
 
     <modules>
         <module>gateway</module>
+        <module>order-service</module>
+        <module>order-service-api</module>
+        <module>inventory-service</module>
+        <module>inventory-service-api</module>
+        <module>payment-service</module>
+        <module>payment-service-api</module>
+        <module>shipping-service</module>
+        <module>shipping-service-api</module>
+        <module>temporal-utils</module>
     </modules>
 
     <properties>
         <java.version>21</java.version>
         <kotlin.version>1.9.21</kotlin.version>
+        <temporal.version>1.20.1</temporal.version>
+        <spring-doc.version>2.3.0</spring-doc.version>
+        <data-faker.version>2.0.2</data-faker.version>
     </properties>
 
 
     <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>io.temporal</groupId>
+                <artifactId>temporal-sdk</artifactId>
+                <version>${temporal.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.temporal</groupId>
+                <artifactId>temporal-kotlin</artifactId>
+                <version>${temporal.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>fr.hcaupert</groupId>
+                <artifactId>gateway</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>fr.hcaupert</groupId>
+                <artifactId>order-service</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>fr.hcaupert</groupId>
+                <artifactId>order-service-api</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>fr.hcaupert</groupId>
+                <artifactId>inventory-service</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>fr.hcaupert</groupId>
+                <artifactId>inventory-service-api</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>fr.hcaupert</groupId>
+                <artifactId>payment-service</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>fr.hcaupert</groupId>
+                <artifactId>payment-service-api</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>fr.hcaupert</groupId>
+                <artifactId>shipping-service-api</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>fr.hcaupert</groupId>
+                <artifactId>shipping-service</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>fr.hcaupert</groupId>
+                <artifactId>temporal-utils</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springdoc</groupId>
+                <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
+                <version>${spring-doc.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>net.datafaker</groupId>
+                <artifactId>datafaker</artifactId>
+                <version>${data-faker.version}</version>
+            </dependency>
+        </dependencies>
     </dependencyManagement>
 </project>
