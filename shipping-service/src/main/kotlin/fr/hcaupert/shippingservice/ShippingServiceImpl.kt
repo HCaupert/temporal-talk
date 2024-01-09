@@ -18,6 +18,6 @@ class ShippingServiceImpl : ShippingService {
                 "Order shipped:\n" +
                 "ID: ${order.id}\n" +
                 "To: ${order.shipping.receiver.firstName} ${order.shipping.receiver.lastName}\n" +
-                "Delivery: ${order.shipping.shippingMethod}")
+                "Delivery: ${order.shipping.method}")
     }
 }

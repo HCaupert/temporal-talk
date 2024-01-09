@@ -53,9 +53,9 @@ class RandomCreator {
                 name = title,
                 price = faker.numerify("####").toLong(),
             ),
-            paymentId = UUID.randomUUID(),
+            payment = Payment(id = UUID.randomUUID()),
             shipping = ShippingDetails(
-                shippingMethod = ShippingDetails.ShippingMethod.random(),
+                method = ShippingDetails.ShippingMethod.random(),
                 address = Address(
                     street = faker.address().streetName(),
                     city = faker.address().city(),

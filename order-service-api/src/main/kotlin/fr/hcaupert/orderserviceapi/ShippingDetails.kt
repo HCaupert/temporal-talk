@@ -1,9 +1,11 @@
 package fr.hcaupert.orderserviceapi
 
 data class ShippingDetails(
-    val shippingMethod: ShippingMethod,
+    val method: ShippingMethod,
     val address: Address,
     val receiver: Receiver,
+    var status: ShippingStatus = ShippingStatus.PENDING,
+    var trackingNumber: String? = null,
 ) {
     enum class ShippingMethod {
         EXPRESS,

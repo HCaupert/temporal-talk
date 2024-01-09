@@ -36,6 +36,7 @@
         <temporal.version>1.20.1</temporal.version>
         <spring-doc.version>2.3.0</spring-doc.version>
         <data-faker.version>2.0.2</data-faker.version>
+        <mockito-kotlin.version>5.2.1</mockito-kotlin.version>
     </properties>
 
 
@@ -50,6 +51,18 @@
                 <groupId>io.temporal</groupId>
                 <artifactId>temporal-kotlin</artifactId>
                 <version>${temporal.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.temporal</groupId>
+                <artifactId>temporal-testing</artifactId>
+                <version>${temporal.version}</version>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.mockito.kotlin</groupId>
+                <artifactId>mockito-kotlin</artifactId>
+                <version>${mockito-kotlin.version}</version>
+                <scope>test</scope>
             </dependency>
             <dependency>
                 <groupId>fr.hcaupert</groupId>

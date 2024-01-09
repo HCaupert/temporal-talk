@@ -7,13 +7,6 @@ export type ShippingStatus =
   | "AWAITING_SHIPPING"
   | "SHIPPED";
 
-export interface OrderInfo {
-  order: Order;
-  shippingStatus: ShippingStatus;
-  paymentStatus: PaymentStatus;
-  trackingNumber?: string;
-}
-
 export interface OrderListElement {
   id: string;
   date: string;
@@ -22,7 +15,7 @@ export interface OrderListElement {
 
 export interface Order {
   id: string;
-  paymentId: string;
+  payment: Payment;
   creationDate: string;
   article: Article;
   shipping: Shipping;
@@ -36,7 +29,9 @@ export interface Article {
 }
 
 export interface Shipping {
-  shippingMethod: string;
+  status: ShippingStatus;
+  trackingNumber?: string;
+  method: string;
   address: Address;
   receiver: Receiver;
 }
@@ -50,4 +45,9 @@ export interface Address {
 export interface Receiver {
   firstName: string;
   lastName: string;
+}
+
+export interface Payment {
+  id: string;
+  status: PaymentStatus;
 }

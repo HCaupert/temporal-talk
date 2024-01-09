@@ -15,7 +15,7 @@ export default function Home() {
   return (
     <main className="flex min-h-dvh flex-col items-center container">
       <HomeTools />
-      <h1 className="self-start my-10 text-2xl">My Shipping Logistics</h1>
+      <h1 className="self-start my-10 text-2xl">Vido Game Logistics</h1>
       {query.data && <ShippingTable rows={query.data} />}
     </main>
   );

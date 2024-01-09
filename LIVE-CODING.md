@@ -1,10 +1,13 @@
 ## Setup
-- ReLancer le cluster temporal (vider + search attribute)
-- Lancer le dashboard
-- Onglet à ouvrir :
-  - `http://localhost:3000`
-  - `http://localhost:8080/api/swagger-ui/index.html`
+- Relancer le cluster temporal
+  - Run la commande search attribute
+- Lancer : 
+  - Front 
+  - Back
+- Onlets :
+  - `http://localhost:8080/api/swagger-ui/index.html` -> Vider payload + try it ouvert
   - `http://localhost:8081`
+  - `http://localhost:3000`
 - IJ:
   - ProcessOrderWorkflowImpl
 
@@ -12,23 +15,20 @@
 
 ### Préparer le flow
 - `ProcessOrderWorkflowImpl`
-- Implémenter le flow
-- Bon il faut injecter le shipping service
-- Temporal a un sdk
-- Implémenter 
+- Ce boût la va tourner dans un contexte temporal
+  - > was
 - Il nous faut des options ! 
   - > acop
 - Bon pour pouvoir lancer une activité depuis un workflow, il faut faire des trucs à l'interface
 - `ShippingService`
   - `@ActivityInterface`
 - On fait pareil pour le inventoryService
+  - > mya
 
 ### Préparer le controller
 - On a `WorkflowClient` qui nous permet de se reconnecter au contexte temporal
 - C'est un objet qui vient du sdk
-```kotlin
-val workflow = workflowClient.newWorkflowStub<ProcessOrderWorkflow>(options)
-```
+  - > wws
 - Il nous faut des options : 
   - > woop
 - Puis finalement on peut lancer
@@ -82,6 +82,16 @@ val worker = workerFactory.newWorker(MyTemporalQueue.SHIPPING.name)
 return workflowClient.listExecutions("")
 ```
 - > mawf
+```kotlin
+return workflowClient.listExecutions("")
+  .map { wf ->
+    OrderListElement(
+      id = UUID.fromString(wf.execution.workflowId),
+      date = wf.startTime,
+      shippingStatus = ShippingStatus.PENDING,
+    )
+  }
+```
 - Relancer le back
 - Montrer _MyShippingLogistics_
 - Bon bah bravo, on sait lister nos process
@@ -131,15 +141,12 @@ override fun processOrder(order: Order) {
 - Bon en vrai ce serait chouette de gérer le paiement avant d'envoyer
 - On veut rajouter un check sur l'authorize 
   - Vous savez c'est quand le paiement est en mode "à venir" sur votre compte
+- Du coup passer `paymentStatus = PENDING`
 - "On voudrait attendre que le paiement soit autorisé"
 - Répéter + `Workflow.await { paymentStatus == PaymentStatus.AUTHORIZED }`
 - Bon après pas de magie, il nous faudrait un truc qui vienne l'update
 - Il nous faudrait un truc qui fait ça en fait 
-```kotlin
-fun markPaymentAsAuthorized(){
-    paymentStatus = PaymentStatus.AUTHORIZED
-}
-```
+  - > mpaa
 - Ce serait super chouette que ce truc-là soit disponible à travers temporal
 - rajouter `override` + `alt + entr`
 - Cette fois si on veut pas récupérer/query de l'info
@@ -161,9 +168,22 @@ workflowClient.newWorkflowStub<ProcessOrderWorkflow>(orderId.toString())
   - > payse
 - puis mettre à jour le flow
 ```kotlin
-// Capture payment
-paymentService.capturePayment(order.paymentId)
-paymentStatus = PaymentStatus.CAPTURED
+override fun processOrder(order: Order) {
+  this.order = order
+
+  // Inventory
+  inventoryService.reserveArticle(order.article.id)
+
+  // Payment Authorization
+  Workflow.await { paymentStatus == PaymentStatus.AUTHORIZED }
+
+  // Payment Capture
+  paymentService.capturePayment(order.paymentId)
+  paymentStatus = PaymentStatus.CAPTURED
+
+  // Shipping
+  shippingService.shipOrder(order)
+}
 ```
 - Montrer les logs
 - Bravo !
@@ -192,13 +212,16 @@ private var shippingStatus = ShippingStatus.PENDING
   - `shippingStatus = ShippingStatus.valueOfOrPending(wf.mySearchAttribute(MySearchAttributes.SHIPPING_STATUS)),`
 
 
-### Temporal IT 
+### Think Temporal  
 - Bon jusque là c'était plutôt classique comme dev
 - En fait quand on a temporal, on peut un peu changer notre manière de coder pour utiliser au mieux les possibilités
 - Target: 
 ```kotlin
 override fun processOrder(order: Order) {
   this.order = order
+  
+  // Inventory
+  inventoryService.reserveArticle(order.article.id)
 
   //Payment Authorization
   Workflow.await { paymentStatus == PaymentStatus.AUTHORIZED }
@@ -216,10 +239,14 @@ override fun processOrder(order: Order) {
   Workflow.await { shippingStatus == ShippingStatus.SHIPPED }
 }
 ```
-- Il nous faut deux méthodes pour venir mettre à jour ce status de livraison
+- Shipping prepared
   - > shpr
 - Et au passage, on a rajouté le numéro de suivi
-- On fait pareil dans l'interface `ProcessOrderWorkflow`
-  - > sish 
+```kotlin
+order.shipping.trackingNumber = trackingNumber
+```
+
+- Order shipped
+  - > orsh
 - Puis faut aller remplir le `ShippingController` correctement
 - Run une commande en side by side

@@ -6,7 +6,7 @@ import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { DialogClose } from "@/components/ui/dialog";
 import { Separator } from "@/components/ui/separator";
-import { OrderInfo } from "@/lib/models";
+import { Order } from "@/lib/models";
 
 export default function TalkTools({
   children,
@@ -47,17 +47,17 @@ export function HomeTools() {
   );
 }
 
-export function PaymentTools({ orderInfo }: { orderInfo: OrderInfo }) {
+export function PaymentTools({ order }: { order: Order }) {
   function simulatePayment() {
     return fetch(
-      `http://localhost:8080/api/psps/payment-confirmations/${orderInfo.order.id}`,
+      `http://localhost:8080/api/psps/payment-confirmations/${order.id}`,
       {
         method: "POST"
       }
     );
   }
 
-  if (orderInfo.paymentStatus !== "PENDING") return <></>;
+  if (order.payment.status !== "PENDING") return <></>;
 
   return (
     <TalkTools className="-right-5 translate-x-[100%]">

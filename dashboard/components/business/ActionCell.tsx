@@ -2,36 +2,24 @@
 
 import { Row } from "@/lib/fetchOrders";
 import { Button } from "@/components/ui/button";
-import {
-  EyeIcon,
-  HomeIcon,
-  LucideIcon,
-  PackageIcon,
-  TruckIcon,
-  UserIcon,
-} from "lucide-react";
+import { EyeIcon, HomeIcon, LucideIcon, PackageIcon, TruckIcon, UserIcon } from "lucide-react";
 import {
   Dialog,
   DialogContent,
   DialogDescription,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
+  DialogTrigger
 } from "@/components/ui/dialog";
 import { fetchOrder } from "@/lib/fetchOrder";
 import { ReactElement, useEffect, useState } from "react";
-import { OrderInfo, ShippingStatus } from "@/lib/models";
+import { Order, ShippingStatus } from "@/lib/models";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Progress } from "@/components/ui/progress";
 import { cn } from "@/lib/utils";
 import { PreparePackageForm } from "@/components/business/PreparePackageForm";
 import { ShipPackageForm } from "@/components/business/ShipPackageForm";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import Image from "next/image";
 import { PaymentTools } from "@/components/business/TalkTools";
 
@@ -40,7 +28,7 @@ const shippingPercentages: Record<ShippingStatus, number> = {
   AWAITING_PREPARATION: 30,
   PREPARED: 50,
   AWAITING_SHIPPING: 70,
-  SHIPPED: 100,
+  SHIPPED: 100
 };
 
 const shippingStatuses: Record<ShippingStatus, ReactElement> = {
@@ -52,24 +40,24 @@ const shippingStatuses: Record<ShippingStatus, ReactElement> = {
   AWAITING_SHIPPING: (
     <span className="text-amber-600">En attente d&apos;envoi</span>
   ),
-  SHIPPED: <span className="text-green-600">Expédié</span>,
+  SHIPPED: <span className="text-green-600">Expédié</span>
 };
 
 function Order({ row }: { row: Row }) {
-  const [orderInfo, setOrderInfo] = useState<OrderInfo>();
+  const [order, setOrder] = useState<Order>();
   useEffect(() => {
-    fetchOrder(row.id).then(setOrderInfo);
+    fetchOrder(row.id).then(setOrder);
   }, []);
 
-  if (!orderInfo) {
+  if (!order) {
     return <Skeleton />;
   }
 
-  const { order, paymentStatus, shippingStatus, trackingNumber } = orderInfo;
+  const { payment: { status: paymentStatus }, shipping: { status: shippingStatus, trackingNumber } } = order;
   const { shipping, article } = order;
   return (
     <div className="flex flex-col gap-2 static">
-      <PaymentTools orderInfo={orderInfo} />
+      <PaymentTools order={order} />
       <div className="flex gap-2 my-6">
         <Image
           src={article.image}
@@ -94,7 +82,7 @@ function Order({ row }: { row: Row }) {
                     "ml-auto text-end w-fit font-semibold cursor-default underline hover:no-underline",
                     paymentStatus === "PENDING" && "text-amber-600",
                     paymentStatus === "AUTHORIZED" && "text-blue-700",
-                    paymentStatus === "CAPTURED" && "text-green-600",
+                    paymentStatus === "CAPTURED" && "text-green-600"
                   )}
                 >
                   {article.price / 100} €
@@ -121,7 +109,7 @@ function Order({ row }: { row: Row }) {
       </div>
       <p>
         Livraison{" "}
-        <span className="italic">{shipping.shippingMethod.toLowerCase()}</span>{" "}
+        <span className="italic">{shipping.method.toLowerCase()}</span>{" "}
         - {shippingStatuses[shippingStatus]}
       </p>
       {trackingNumber && (
@@ -129,7 +117,7 @@ function Order({ row }: { row: Row }) {
           Numéro de suivi : <span className="italic">{trackingNumber}</span>
         </p>
       )}
-      <Progress value={shippingPercentages[orderInfo.shippingStatus]} />
+      <Progress value={shippingPercentages[shippingStatus]} />
       {shippingStatus === "AWAITING_PREPARATION" && (
         <PreparePackageForm orderId={order.id} />
       )}
@@ -141,10 +129,10 @@ function Order({ row }: { row: Row }) {
 }
 
 function ConfirmButtonDialog({
-  text,
-  Icon,
-  element,
-}: {
+                               text,
+                               Icon,
+                               element
+                             }: {
   text: string;
   Icon: LucideIcon;
   element: Row;
