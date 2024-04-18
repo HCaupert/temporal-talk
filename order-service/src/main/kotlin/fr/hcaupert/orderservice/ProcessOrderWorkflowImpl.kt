@@ -42,16 +42,15 @@ class ProcessOrderWorkflowImpl : ProcessOrderWorkflow {
 
         //Payment Authorization
         Workflow.await { order.payment.status == PaymentStatus.AUTHORIZED }
+        updateShippingStatus(ShippingStatus.AWAITING_PREPARATION)
 
         //Prepare Order
-        updateShippingStatus(ShippingStatus.AWAITING_SHIPPING)
         Workflow.await { order.shipping.status == ShippingStatus.PREPARED }
 
         //Payment Capture
         paymentService.capturePayment(order.payment.id)
         order.payment.status = PaymentStatus.CAPTURED
         updateShippingStatus(ShippingStatus.AWAITING_SHIPPING)
-
 
         // Shipping
         Workflow.await { order.shipping.status == ShippingStatus.SHIPPED }
