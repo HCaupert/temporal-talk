@@ -42,7 +42,7 @@ class RandomCreator {
         val imageUrl =
             restTemplate.getForObject(uri, JsonNode::class.java)?.get("value")?.get(0)?.get("contentUrl")?.asText()
                 .orEmpty()
-
+//        val imageUrl = "https://m.media-amazon.com/images/I/513eV9QFlAL._AC_UF894,1000_QL80_.jpg"
 
         return Order(
             id = UUID.randomUUID(),

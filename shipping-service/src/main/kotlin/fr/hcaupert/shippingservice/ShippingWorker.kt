@@ -11,5 +11,5 @@ class ShippingWorker(
     shippingService: ShippingService,
 ) {
     val worker = workerFactory.newWorker(MyTemporalQueue.SHIPPING.name)
-        .registerActivitiesImplementations()
+        .registerActivitiesImplementations(shippingService)
 }

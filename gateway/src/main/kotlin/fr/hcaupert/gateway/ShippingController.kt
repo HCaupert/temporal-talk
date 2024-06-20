@@ -20,11 +20,13 @@ class ShippingController(
     @PostMapping("/prepared-shippings")
     fun markOrderAsPrepared(@PathVariable orderId: String, @RequestBody shipping: ShippingId) {
         workflowClient.newWorkflowStub<ProcessOrderWorkflow>(orderId)
+            .markOrderAsPrepared(shipping.id)
     }
 
     @Hidden
     @PostMapping("/shippings")
     fun markOrderAsShipped(@PathVariable orderId: String) {
         workflowClient.newWorkflowStub<ProcessOrderWorkflow>(orderId)
+            .orderShipped()
     }
 }

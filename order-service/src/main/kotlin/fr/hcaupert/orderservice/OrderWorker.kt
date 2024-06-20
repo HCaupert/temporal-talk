@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service
 class OrderWorker(
     workerFactory: WorkerFactory,
 ) {
-    // TODO create the shipping worker !
-//    val worker = workerFactory.newWorker(MyTemporalQueue..name)
-//        .registerWorkflowImplementationTypes()
+    val worker = workerFactory.newWorker(MyTemporalQueue.ORDER.name)
+        .registerWorkflowImplementationTypes(ProcessOrderWorkflowImpl::class.java)
 }
