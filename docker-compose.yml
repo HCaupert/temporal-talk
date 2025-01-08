@@ -10,7 +10,7 @@ services:
       - discovery.type=single-node
       - ES_JAVA_OPTS=-Xms256m -Xmx256m
       - xpack.security.enabled=false
-    image: elasticsearch:${ELASTICSEARCH_VERSION}
+    image: elasticsearch:7.16.2
     networks:
       - temporal-network
     expose:
@@ -22,7 +22,7 @@ services:
     environment:
       POSTGRES_PASSWORD: temporal
       POSTGRES_USER: temporal
-    image: postgres:${POSTGRESQL_VERSION}
+    image: postgres:13
     networks:
       - temporal-network
     expose:
@@ -35,7 +35,7 @@ services:
       - postgresql
       - elasticsearch
     environment:
-      - DB=postgresql
+      - DB=postgres12
       - DB_PORT=5432
       - POSTGRES_USER=temporal
       - POSTGRES_PWD=temporal
@@ -44,13 +44,11 @@ services:
       - ENABLE_ES=true
       - ES_SEEDS=elasticsearch
       - ES_VERSION=v7
-    image: temporalio/auto-setup:${TEMPORAL_VERSION}
+    image: temporalio/auto-setup:latest
     networks:
       - temporal-network
     ports:
-      - "7233:7233"
-    labels:
-      kompose.volume.type: configMap
+      - 7233:7233
     volumes:
       - ./dynamicconfig:/etc/temporal/config/dynamicconfig
   temporal-admin-tools:
@@ -60,7 +58,7 @@ services:
     environment:
       - TEMPORAL_ADDRESS=temporal:7233
       - TEMPORAL_CLI_ADDRESS=temporal:7233
-    image: temporalio/admin-tools:${TEMPORAL_VERSION}
+    image: temporalio/admin-tools:latest
     networks:
       - temporal-network
     stdin_open: true
@@ -72,7 +70,7 @@ services:
     environment:
       - TEMPORAL_ADDRESS=temporal:7233
       - TEMPORAL_CORS_ORIGINS=http://localhost:3000
-    image: temporalio/ui:${TEMPORAL_UI_VERSION}
+    image: temporalio/ui:latest
     networks:
       - temporal-network
     ports:
