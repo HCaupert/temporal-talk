@@ -14,7 +14,7 @@ interface ProcessOrderWorkflow {
     fun getOrder(): Order
 
     @SignalMethod
-    fun markPaymentAsAuthorized()
+    fun paymentAuthorized()
 
     @SignalMethod
     fun shippingPrepared(trackingNumber: String)

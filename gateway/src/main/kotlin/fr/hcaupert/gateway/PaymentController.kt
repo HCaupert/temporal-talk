@@ -25,6 +25,6 @@ class PaymentController(
         orderId: UUID,
     ) {
         workflowClient.newWorkflowStub<ProcessOrderWorkflow>(orderId.toString())
-            .markPaymentAsAuthorized()
+            .paymentAuthorized()
     }
 }

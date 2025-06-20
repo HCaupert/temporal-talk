@@ -31,7 +31,7 @@ export default function TalkTools({
 
 export function HomeTools() {
   function simulateOrder() {
-    return fetch("http://localhost:8080/api/orders", { method: "POST" });
+    return fetch("http://localhost:8081/api/orders", { method: "POST" });
   }
 
   return (
@@ -50,7 +50,7 @@ export function HomeTools() {
 export function PaymentTools({ order }: { order: Order }) {
   function simulatePayment() {
     return fetch(
-      `http://localhost:8080/api/psps/payment-confirmations/${order.id}`,
+      `http://localhost:8081/api/psps/payment-confirmations/${order.id}`,
       {
         method: "POST"
       }

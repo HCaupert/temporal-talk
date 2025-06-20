@@ -28,6 +28,7 @@
         <module>shipping-service</module>
         <module>shipping-service-api</module>
         <module>temporal-utils</module>
+        <module>consumer</module>
     </modules>
 
     <properties>

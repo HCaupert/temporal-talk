@@ -5,6 +5,6 @@ import java.util.*
 
 @ActivityInterface
 interface InventoryService {
-    fun reserveArticle(id: UUID)
+    fun prepareArticle(id: UUID)
     fun releaseArticle(id: UUID)
 }

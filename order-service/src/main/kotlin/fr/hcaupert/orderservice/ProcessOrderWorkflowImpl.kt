@@ -10,9 +10,7 @@ import fr.hcaupert.shippingserviceapi.ShippingService
 import fr.hcaupert.temporalutils.MyTemporalQueue
 import fr.hcaupert.temporalutils.MyTemporalUtils
 import io.temporal.activity.ActivityOptions
-import io.temporal.activity.setRetryOptions
 import io.temporal.workflow.Workflow
-import org.springframework.stereotype.Service
 import java.time.Duration
 
 
@@ -21,11 +19,7 @@ class ProcessOrderWorkflowImpl : ProcessOrderWorkflow {
     private val options = ActivityOptions {
         setTaskQueue(MyTemporalQueue.SHIPPING.name)
         setStartToCloseTimeout(Duration.ofSeconds(10))
-        setRetryOptions {
-
-        }
     }
-
     private val shippingService: ShippingService = Workflow.newActivityStub(ShippingService::class.java, options)
     private val inventoryService: InventoryService = MyTemporalUtils.myActivity(MyTemporalQueue.INVENTORY)
     private val paymentService: PaymentService = MyTemporalUtils.myActivity(MyTemporalQueue.PAYMENT)
@@ -38,7 +32,7 @@ class ProcessOrderWorkflowImpl : ProcessOrderWorkflow {
         updateShippingStatus(order.shipping.status)
 
         //Inventory
-        inventoryService.reserveArticle(order.article.id)
+        inventoryService.prepareArticle(order.article.id)
 
         //Payment Authorization
         Workflow.await { order.payment.status == PaymentStatus.AUTHORIZED }
@@ -68,7 +62,7 @@ class ProcessOrderWorkflowImpl : ProcessOrderWorkflow {
         return order
     }
 
-    override fun markPaymentAsAuthorized() {
+    override fun paymentAuthorized() {
         order.payment.status = PaymentStatus.AUTHORIZED
     }
 

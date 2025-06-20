@@ -12,7 +12,7 @@ const shippingStatusLabels = {
 } as const;
 
 export async function fetchOrders() {
-  const response = await fetch("http://localhost:8080/api/orders");
+  const response = await fetch("http://localhost:8081/api/orders");
   const json = (await response.json()) as OrderListElement[];
   const rows = json.map((element) => ({
     ...element,

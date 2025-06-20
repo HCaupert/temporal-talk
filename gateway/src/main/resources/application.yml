@@ -4,6 +4,7 @@ spring:
 server:
   servlet:
     context-path: "/api"
+  port: 8081
 app:
   azure-secret: ${BING_SEARCH_KEY}
 logging:

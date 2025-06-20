@@ -25,6 +25,14 @@
         </dependency>
         <dependency>
             <groupId>fr.hcaupert</groupId>
+            <artifactId>inventory-service-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>fr.hcaupert</groupId>
+            <artifactId>shipping-service-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>fr.hcaupert</groupId>
             <artifactId>inventory-service</artifactId>
             <scope>runtime</scope>
         </dependency>

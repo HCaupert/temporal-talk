@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 
 export function ShipPackageForm({ orderId }: { orderId: string }) {
   async function markAsShipped() {
-    await fetch(`http://localhost:8080/api/orders/${orderId}/shippings`, {
+    await fetch(`http://localhost:8081/api/orders/${orderId}/shippings`, {
       method: "POST",
       headers: {
         "Content-type": "application/json",

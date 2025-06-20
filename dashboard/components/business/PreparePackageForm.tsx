@@ -29,7 +29,7 @@ export function PreparePackageForm({ orderId }: { orderId: string }) {
 
   async function confirmPreparation(values: Schema) {
     await fetch(
-      `http://localhost:8080/api/orders/${orderId}/prepared-shippings`,
+      `http://localhost:8081/api/orders/${orderId}/prepared-shippings`,
       {
         method: "POST",
         headers: {

@@ -54,10 +54,10 @@ class ProcessOrderWorkflowTest {
         assertThat(setupOrder.shipping.status).isEqualTo(ShippingStatus.PENDING)
 
         // Inventory
-        verify(inventoryService).reserveArticle(order.article.id)
+        verify(inventoryService).prepareArticle(order.article.id)
 
         // Payment Authorization
-        workflow.markPaymentAsAuthorized()
+        workflow.paymentAuthorized()
         assertThat(workflow.getOrder().shipping.status).isEqualTo(ShippingStatus.AWAITING_PREPARATION)
 
         // Prepare Shipping

@@ -13,7 +13,7 @@ class InventoryServiceImpl : InventoryService {
     private val logger: Logger = LoggerFactory.getLogger(javaClass)
     private val failer = Failer(on = 3)
 
-    override fun reserveArticle(id: UUID) {
+    override fun prepareArticle(id: UUID) {
         failer.run()
         val newInventory = inventoryById(id) - 1
         if (newInventory < 0) throw RuntimeException("This article is not in stock anymore...")
