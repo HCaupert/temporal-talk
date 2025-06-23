@@ -7,6 +7,7 @@ server:
   port: 8081
 app:
   azure-secret: ${BING_SEARCH_KEY}
+  temporal-api-key: ${TEMPORAL_API_KEY}
 logging:
   level:
     io.temporal.internal.activity.ActivityTaskExecutors: ERROR

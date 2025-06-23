@@ -35,10 +35,6 @@
             <artifactId>shipping-service-api</artifactId>
         </dependency>
         <dependency>
-            <groupId>fr.hcaupert</groupId>
-            <artifactId>payment-service-api</artifactId>
-        </dependency>
-        <dependency>
             <groupId>com.fasterxml.jackson.module</groupId>
             <artifactId>jackson-module-kotlin</artifactId>
         </dependency>

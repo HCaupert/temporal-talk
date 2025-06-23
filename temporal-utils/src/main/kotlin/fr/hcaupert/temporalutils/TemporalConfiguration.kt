@@ -6,7 +6,9 @@ import io.temporal.client.WorkflowClientOptions
 import io.temporal.common.converter.DefaultDataConverter
 import io.temporal.common.converter.JacksonJsonPayloadConverter
 import io.temporal.serviceclient.WorkflowServiceStubs
+import io.temporal.serviceclient.WorkflowServiceStubsOptions
 import io.temporal.worker.WorkerFactory
+import org.springframework.beans.factory.annotation.Value
 import org.springframework.boot.autoconfigure.jackson.JacksonAutoConfiguration
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
@@ -19,14 +21,22 @@ import org.springframework.stereotype.Component
 @Import(JacksonAutoConfiguration::class)
 class TemporalConfiguration {
 
+    @Value("\${app.temporal-api-key}")
+    lateinit var apiKey: String
+
     @Bean
-    fun workflowServiceStubs(): WorkflowServiceStubs = WorkflowServiceStubs.newLocalServiceStubs()
+    fun workflowServiceStubs(): WorkflowServiceStubs = WorkflowServiceStubs.newServiceStubs(WorkflowServiceStubsOptions {
+        addApiKey { apiKey }
+        setEnableHttps(true)
+        setTarget("eu-west-2.aws.api.temporal.io:7233")
+    })
 
     @Bean
     fun workflowClient(service: WorkflowServiceStubs, objectMapper: ObjectMapper): WorkflowClient {
         val options = WorkflowClientOptions {
             objectMapper.asDataConverter()
                 .also(::setDataConverter)
+            setNamespace("hugo.nxuww")
         }
         return WorkflowClient.newInstance(service, options)
     }
