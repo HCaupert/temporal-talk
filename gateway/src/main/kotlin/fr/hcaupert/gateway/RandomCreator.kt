@@ -34,14 +34,7 @@ class RandomCreator {
 
     fun order(): Order {
         val title = faker.videoGame().title()
-
-        val uri = UriComponentsBuilder.fromHttpUrl("https://api.bing.microsoft.com/v7.0/images/search")
-            .queryParam("q", title)
-            .build()
-            .toUri()
-        val imageUrl =
-            restTemplate.getForObject(uri, JsonNode::class.java)?.get("value")?.get(0)?.get("contentUrl")?.asText()
-                .orEmpty()
+        val imageUrl = "https://takima.fr"
 
 
         return Order(
